@@ -10,13 +10,13 @@ pipeline{
 
             stage('Test'){
                 steps{
-                    sh 'This is test stage'
+                    sh 'echo This is test stage'
                 }
                 
             }
             stage('Deploy'){
                 steps{
-                     sh 'This is deploy stage'
+                     sh 'echo "This is deploy stage"'
                 }
             }
         }

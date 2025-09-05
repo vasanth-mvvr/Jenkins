@@ -26,3 +26,66 @@ pipeline{
 
 
 
+
+
+
+
+
+
+
+pipeline{
+    agent {
+        label 'AGENT-1'
+    }
+    options{
+        timeout(time: 1,unit: 'SECONDS')
+        disableConcurrentBuilds()
+    }
+    parameters{
+        string(name: 'PERSON', defaultValue: 'Jenkins')
+        text(name: 'BIOGRAPHY',defaultValue: '')
+        booleanParam(name: "TOGGLE", defaultValue: true)
+        choice(name: 'CHOICE',choices:['one','two','three'])
+        password(name : 'PASSWORD',defaultValue: '',description: 'enter password')
+    }
+    environment {
+        deploy = 'true'
+    }
+        stages{
+            stage('Build'){
+                sh 'echo this is build stage'
+            }
+
+            stage('Test'){
+                sh 'This is test stage'
+                sh 'sleep 10'
+            }
+            stage('Deploy'){
+                sh 'This is deploy stage'
+            }
+            stage("print parameters"){
+                steps{
+                    echo "Hello, ${params.PERSON}"
+                    echo "Biography: ${param.BIOGRAPHY}"
+                    echo "toggle: ${param.TOGGLE}"
+                    echo "choice: ${param.CHOICE}"
+                    echo "Biography: ${param.PASSWORD}"
+                }
+            }
+            post{
+                always{
+                    echo 'i will always say hello '
+                }
+                success{
+                    echo ' it is success'
+                }
+                failure{
+                    echo 'it is failure'
+                }
+            }
+        }
+    
+}
+
+
+
